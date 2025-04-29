@@ -1,25 +1,21 @@
 import { FlatList, Image, Text, View } from "react-native";
 import { getSpeciesImage, SpeciesInfo } from "../../../functions/getImages";
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "expo-router/build/hooks";
+import { useLocalSearchParams } from "expo-router/build/hooks";
 import { species } from "../../../assets/species/species";
 
 const Book: React.FC = () => {
-    const searchParams = useSearchParams();
-    const id = searchParams.get("id");
     const [speciesData, setSpeciesData] = useState<SpeciesInfo[]>([]);
-    const router = useRouter();
+    const { id } = useLocalSearchParams();
 
     useEffect(() => {
         const fetchSpeciesData = async () => {
-            if (id) {
-                const data = await Promise.all(
-                    Object.keys(Object.keys(species)[parseInt(id)]).map(async (specie) => {
-                        return await getSpeciesImage(specie);
-                    })
-                );
-                setSpeciesData(data);
-            }
+            const data = await Promise.all(
+                Object.keys(species[id as string]).map(async (specie) => {
+                    return await getSpeciesImage(specie);
+                })
+            );
+            setSpeciesData(data);
         };
 
         fetchSpeciesData();
