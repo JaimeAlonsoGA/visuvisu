@@ -1,12 +1,25 @@
-import {  Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { species } from "../../assets/species/species";
+import { router } from "expo-router";
 
-const Home = () => {
-
+const Explorer = () => {
     return (
         <View style={{ flex: 1 }} >
-            <Text>Home Screen</Text>
+            <View className="grid grid-cols-2 gap-4">
+                {Object.keys(species).map((family, index) => (
+                    <View className="grid grid-cols-2 gap-4">
+                        <TouchableOpacity
+                            key={index}
+                            className="flex items-center justify-center p-4 border rounded-lg"
+                            onPress={() => router.push(`/book/${family}`)}
+                        >
+                            <Text>{family}</Text>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+            </View>
         </View>
     );
 };
 
-export default Home;
+export default Explorer;

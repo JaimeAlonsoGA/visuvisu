@@ -1,9 +1,7 @@
 import { Tabs, useFocusEffect, useNavigation } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { BackHandler, Platform, View } from "react-native";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { BackHandler, Platform } from "react-native";
 import { useCallback } from "react";
-
-type IoniconName = keyof typeof Ionicons.glyphMap;
 
 export default function TabLayout() {
     const navigation = useNavigation();
@@ -32,24 +30,24 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 headerShown: false,
-                tabBarStyle: { height: 60, backgroundColor: "#fff" }, 
+                tabBarStyle: { height: 60, backgroundColor: "#fff" },
             }}
         >
             <Tabs.Screen
                 name="index"
                 options={{
-                    title: "Phone App",
+                    title: "Explore",
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="home" size={size} color={color} />
+                        <FontAwesome name="wpexplorer" size={size} color={color} />
                     ),
                 }}
             />
             <Tabs.Screen
-                name="template"
+                name="exam"
                 options={{
-                    title: "Template",
+                    title: "Visu",
                     tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="happy" size={size} color={color} />
+                        <MaterialCommunityIcons name="bird" size={size} color={color} />
                     ),
                 }}
             />
