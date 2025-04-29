@@ -56,7 +56,7 @@ export default function App() {
         <SafeAreaProvider style={{ flex: 1 }}>
             <View onLayout={onLayoutRootView} style={{ flex: 1, paddingTop: insets.top }}>
                 <Stack screenOptions={{ headerShown: false }}>
-                    <Stack.Screen name="(tabs)"  />
+                    <Stack.Screen name="(tabs)" />
                 </Stack>
                 <StatusBar />
             </View>
