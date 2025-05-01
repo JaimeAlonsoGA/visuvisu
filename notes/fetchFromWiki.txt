@@ -1,0 +1,26 @@
+  //   useEffect(() => {
+  //     const fetchSpeciesData = async () => {
+  //       if (loading) return;
+  //       setLoading(true);
+
+  //       try {
+  //         const data = await Promise.all(
+  //           family.species.map(async (specie) => {
+  //             if (specie.imageUrl) return specie as SpeciesInfo;
+  //             const specieData = await fetchImageFromAPI(
+  //               specie.name,
+  //               specie.commonName
+  //             );
+  //             return specieData;
+  //           })
+  //         );
+  //         setSpeciesData(data);
+  //       } catch (error) {
+  //         console.error("Error fetching species data:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
+
+  //     fetchSpeciesData();
+  //   }, [id]);

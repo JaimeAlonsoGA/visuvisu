@@ -2,11 +2,12 @@ import axios from "axios";
 
 export interface SpeciesInfo {
   name: string;
-  common: string;
+  commonName: string;
   imageUrl: string;
+  loading?: boolean;
 }
 
-export async function getSpeciesImage(specieName: string, specieCommon: string): Promise<SpeciesInfo> {
+export async function fetchImageFromAPI(specieName: string, specieCommon: string): Promise<SpeciesInfo> {
   try {
     // Buscar la página de Wikipedia en español para la especie
     const searchResponse = await axios.get(
@@ -79,14 +80,14 @@ export async function getSpeciesImage(specieName: string, specieCommon: string):
 
     return {
       name: specieName,
-      common: specieCommon,
+      commonName: specieCommon,
       imageUrl: imageUrl,
     };
   } catch (error) {
     console.error(`Error al obtener datos para ${specieName}:`, error);
     return {
       name: specieName,
-      common: specieCommon,
+      commonName: specieCommon,
       imageUrl: "",
     };
   }
