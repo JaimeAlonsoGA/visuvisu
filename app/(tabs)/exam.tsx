@@ -1,23 +1,24 @@
 import {
   Dimensions,
   FlatList,
-  Image,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import ExamHeader from "../components/ExamHeader";
-import { Family, species } from "../../assets/species/species";
 import { useEffect, useRef, useState } from "react";
 import { fetchImageFromAPI, SpeciesInfo } from "../../functions/getImage";
 import ExamFilters from "../components/ExamFilters.tsx";
+import { Class } from "../../models/data";
+import { species } from "../../utils/lib";
+import { Image } from "expo-image";
 
-const getRandomSpecies = (families: Family[], count: number) => {
+const getRandomSpecies = (families: Class[], count: number) => {
   const allSpecies = families.flatMap((family) =>
     family.species.map((specie) => ({
-      name: specie.name,
-      commonName: specie.commonName,
-      imageUrl: specie.imageUrl,
+      scientific_name: specie.scientific_name,
+      common_name: specie.common_name,
+      imageUrl: specie.images[0].url,
     }))
   );
   const shuffled = allSpecies.sort(() => 0.5 - Math.random());
@@ -25,7 +26,7 @@ const getRandomSpecies = (families: Family[], count: number) => {
 };
 
 const Exam = () => {
-  const [families, setFamilies] = useState<Family[]>(species);
+  const [families, setFamilies] = useState<Class[]>(species);
   const [randomSpecies, setRandomSpecies] = useState(() =>
     getRandomSpecies(families, 10)
   );
@@ -37,24 +38,10 @@ const Exam = () => {
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    fetchInitialImages();
-  }, []);
-
-  useEffect(() => {
     setSpeciesData([]);
     setRandomSpecies(getRandomSpecies(families, 10));
     loadMoreSpecies();
   }, [families]);
-
-  const fetchInitialImages = async () => {
-    const initialData = await Promise.all(
-      randomSpecies.map((specie) => {
-        if (specie.imageUrl) return specie as SpeciesInfo;
-        return fetchImageFromAPI(specie.name, specie.commonName);
-      })
-    );
-    setSpeciesData(initialData);
-  };
 
   const loadMoreSpecies = async () => {
     if (loading) return;
@@ -63,14 +50,14 @@ const Exam = () => {
     const moreSpecies = getRandomSpecies(families, 10);
     setRandomSpecies((prev) => [...prev, ...moreSpecies]);
 
-    const moreSpeciesData = await Promise.all(
-      moreSpecies.map((specie) => {
-        if (specie.imageUrl) return specie as SpeciesInfo;
-        return fetchImageFromAPI(specie.name, specie.commonName);
-      })
-    );
-
-    setSpeciesData((prev) => [...prev, ...moreSpeciesData]);
+    setSpeciesData((prev) => [
+      ...prev,
+      ...moreSpecies.map((specie) => ({
+        name: specie.scientific_name,
+        commonName: specie.common_name,
+        imageUrl: specie.imageUrl,
+      })),
+    ]);
     setLoading(false);
   };
 
@@ -85,61 +72,68 @@ const Exam = () => {
     }
   };
 
-  // const handleImagePress = (index: number) => {
-  //     setSelectedIndex((prevIndex) => (prevIndex === index ? null : index));
-  // };
+  const handleImagePress = (index: number) => {
+    setSelectedIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   return (
-    <View className="flex flex-col w-full p-4">
+    <View className="flex flex-col w-full p-4 bg-black">
       <ExamHeader state={modal} setModal={setModal} loading={loading} />
       <View className="flex max-h-screen pb-20">
         <FlatList
           ref={flatListRef}
           data={speciesData}
           keyExtractor={(item, index) => `${item.name}-${index}`}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => handleDoubleTap(index)}
-              className="h-[500px] rounded-lg"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "white",
-                padding: 16,
-              }}
-            >
-              {item.imageUrl ? (
+          renderItem={({ item, index }) => {
+            if (item.imageUrl === "") {
+              return null;
+            }
+            return (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => handleImagePress(index)}
+                className="h-[500px] rounded-lg"
+                style={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "black",
+                  padding: 16,
+                }}
+              >
                 <Image
                   source={{ uri: item.imageUrl }}
-                  className="w-full h-max mb-2 rounded-lg aspect-square"
-                  resizeMode="cover"
-                />
-              ) : (
-                <Text className="text-gray-500">Cargando imagen...</Text>
-              )}
-              {selectedIndex === index && (
-                <View
                   style={{
-                    position: "absolute",
-                    bottom: 10,
-                    left: 20,
-                    right: 20,
-                    alignItems: "center",
-                    padding: 10,
-                    borderRadius: 10,
+                    width: "100%",
+                    aspectRatio: 1,
+                    marginBottom: 8,
+                    borderRadius: 12,
                   }}
-                >
-                  <Text className="text-2xl font-bold text-gray-800">
-                    {item.name}
-                  </Text>
-                  <Text className="text-lg text-gray-600">
-                    {item.commonName}
-                  </Text>
-                </View>
-              )}
-            </TouchableOpacity>
-          )}
+                  contentFit="cover"
+                  cachePolicy={"memory-disk"}
+                />
+                {selectedIndex === index && (
+                  <View
+                    style={{
+                      position: "absolute",
+                      bottom: 10,
+                      left: 20,
+                      right: 20,
+                      alignItems: "center",
+                      padding: 10,
+                      borderRadius: 10,
+                    }}
+                  >
+                    <Text className="text-2xl font-bold text-white">
+                      {item.name}
+                    </Text>
+                    <Text className="text-lg text-white/80">
+                      {item.commonName}
+                    </Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            );
+          }}
           horizontal={false}
           snapToInterval={500}
           decelerationRate="fast"

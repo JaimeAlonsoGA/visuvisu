@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "visuvisu",
+    "name": "Visu",
     "slug": "visuvisu",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "scheme": "visuvisu",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash-icon-light.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,38 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "monochromeImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.sonicode.visuvisu"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFFFFF",
+          "image": "./assets/splash-icon-dark.png",
+          "resizeMode": "contain",
+          "imageWidth": 200,
+          "dark": {
+            "image": "./assets/splash-icon-light.png",
+            "backgroundColor": "#000000"
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e213b5e9-0d9f-4b63-9ae8-0c556ca7e37c"
+      }
     }
   }
 }

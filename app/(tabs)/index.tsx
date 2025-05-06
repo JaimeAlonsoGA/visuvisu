@@ -1,24 +1,18 @@
 import { FlatList, Text, View } from "react-native";
-import { species } from "../../assets/species/species";
 import { Link } from "expo-router";
-import { InfoHeader } from "../components/ExplorerHeader";
-import { useWiki } from "../../context/WikiContext";
 import { useEffect, useState } from "react";
 import { ImageBackground } from "expo-image";
+import { InfoHeader } from "../components/ExplorerHeader";
+import { species } from "../../utils/lib";
 
 const Explorer = () => {
-  const { globalLoading, images, specieLoading } = useWiki();
-  const [thumbnail, setThumbnail] = useState<number>(0);
+  const thumbnail = Math.floor(Math.random() * 5);
   const blurhash =
-  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+    "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
-
-  useEffect(() => {
-    setThumbnail(Math.floor(Math.random() * 5));
-  }, []);
   return (
     <View style={{ flex: 1 }} className="bg-black">
-      <InfoHeader loading={globalLoading} images={images} />
+      <InfoHeader />
       <FlatList
         data={species}
         keyExtractor={(item) => item.id.toString()}
@@ -32,10 +26,7 @@ const Explorer = () => {
           justifyContent: "center",
         }}
         renderItem={({ item }) => {
-          const firstSpecies = item.species[thumbnail];
-          const key = `${firstSpecies.name}-${firstSpecies.commonName}`;
-          const isLoading = specieLoading[key];
-          const imageUrl = images.get(firstSpecies.name)?.imageUrl || "";
+          const firstSpecies = item.species[thumbnail].images[0].url;
 
           return (
             <Link
@@ -49,76 +40,46 @@ const Explorer = () => {
                 height: 150,
                 borderRadius: 12,
                 overflow: "hidden",
-                backgroundColor: imageUrl ? "#e5e7eb" : "#d1d5db",
+                backgroundColor: "#d1d5db",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              {/* {imageUrl ? ( */}
-                <ImageBackground
-                  source={{ uri: imageUrl }}
-                  placeholder={{ blurhash }}
-                  transition={1000}
+              <ImageBackground
+                source={{ uri: firstSpecies }}
+                placeholder={{ blurhash }}
+                transition={1000}
+                cachePolicy={"memory-disk"}
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  height: "100%",
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                }}
+                imageStyle={{
+                  borderRadius: 12,
+                }}
+              >
+                <Text
                   style={{
-                    flex: 1,
-                    width: "100%",
-                    height: "100%",
-                    justifyContent: "flex-start",
-                    alignItems: "flex-start",
-                  }}
-                  imageStyle={{
-                    borderRadius: 12,
+                    color: "white",
+                    fontSize: 16,
+                    fontWeight: "bold",
+                    textAlign: "left",
+                    backgroundColor: "rgba(0, 0, 0, 1)",
+                    paddingHorizontal: 8,
+                    paddingVertical: 4,
+                    borderRadius: 8,
+                    borderBottomRightRadius: 0,
+                    position: "absolute",
+                    top: -5,
+                    left: -5,
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      textAlign: "left",
-                      backgroundColor: "rgba(0, 0, 0, 1)",
-                      paddingHorizontal: 8,
-                      paddingVertical: 4,
-                      borderRadius: 8,
-                      borderBottomRightRadius: 0,
-                      position: "absolute",
-                      top: -5,
-                      left: -5,
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                </ImageBackground>
-              {/* ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    height: "100%",
-                    justifyContent: "flex-start",
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 16,
-                      fontWeight: "bold",
-                      textAlign: "left",
-                      backgroundColor: "rgba(0, 0, 0, 1)",
-                      paddingHorizontal: 8,
-                      paddingVertical: 4,
-                      borderRadius: 8,
-                      borderBottomRightRadius: 0,
-                      position: "absolute",
-                      top: -5,
-                      left: -5,
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                </View>
-              )} */}
+                  {item.name}
+                </Text>
+              </ImageBackground>
             </Link>
           );
         }}

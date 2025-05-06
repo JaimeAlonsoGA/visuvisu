@@ -3,15 +3,13 @@ import {
   FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from "@expo/vector-icons";
 import { BackHandler, Platform } from "react-native";
-import { useCallback, useEffect, useState } from "react";
-import { useWiki } from "../../context/WikiContext";
-import { species } from "../../assets/species/species";
+import { useCallback } from "react";
 
 export default function TabLayout() {
   const navigation = useNavigation();
-  const { getImage, setGlobalLoading, imageCache, setImages } = useWiki();
 
   useFocusEffect(
     useCallback(() => {
@@ -35,43 +33,6 @@ export default function TabLayout() {
     }, [navigation])
   );
 
-  const fetchAllImages = async () => {
-    try {
-      setGlobalLoading(true);
-
-      for (const family of species) {
-        await Promise.all(
-          family.species.map(async (specie) => {
-            const key = `${specie.name}-${specie.commonName}`;
-
-            // Check if the image is already in the cache
-            if (imageCache[key]) {
-              // Add the cached image to the images map
-              setImages((prev) =>
-                new Map(prev).set(specie.name, {
-                  name: specie.name,
-                  commonName: specie.commonName,
-                  imageUrl: imageCache[key],
-                })
-              );
-            } else {
-              // Fetch the image if not in the cache
-              await getImage(specie.name, specie.commonName);
-            }
-          })
-        );
-      }
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    } finally {
-      setGlobalLoading(false); // Ensure global loading state is updated
-    }
-  };
-
-  useEffect(() => {
-    fetchAllImages();
-  }, []);
-
   return (
     <Tabs
       screenOptions={{
@@ -93,7 +54,7 @@ export default function TabLayout() {
         options={{
           title: "Visu",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bird" size={size} color={color} />
+            <MaterialIcons name="pets" size={size} color={color} />
           ),
           tabBarStyle: { display: "none" },
         }}
@@ -103,9 +64,8 @@ export default function TabLayout() {
         options={{
           title: "Ajustes",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
+            <MaterialIcons name="biotech" size={size} color={color} />
           ),
-          tabBarStyle: { display: "none" },
         }}
       />
     </Tabs>

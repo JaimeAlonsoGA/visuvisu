@@ -8,7 +8,6 @@ import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import "../global.css";
-import { WikiProvider } from "../context/WikiContext";
 
 export default function App() {
   const insets = useSafeAreaInsets();
@@ -57,18 +56,16 @@ export default function App() {
   }
 
   return (
-    <WikiProvider>
-      <SafeAreaProvider style={{ flex: 1 }}>
-        <View
-          onLayout={onLayoutRootView}
-          style={{ flex: 1, paddingTop: insets.top }}
-        >
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-          </Stack>
-          <StatusBar />
-        </View>
-      </SafeAreaProvider>
-    </WikiProvider>
+    <SafeAreaProvider style={{ flex: 1 }}>
+      <View
+        onLayout={onLayoutRootView}
+        style={{ flex: 1, paddingTop: insets.top }}
+      >
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+        </Stack>
+        <StatusBar />
+      </View>
+    </SafeAreaProvider>
   );
 }

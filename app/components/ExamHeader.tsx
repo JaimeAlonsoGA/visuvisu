@@ -1,6 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { Pressable, Text, View } from "react-native";
+import {
+  Pressable,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const ExamHeader: React.FC<{
   state: boolean;
@@ -11,19 +17,16 @@ const ExamHeader: React.FC<{
 
   return (
     <View className="flex flex-row items-center justify-between p-2">
-      <Pressable
+      <TouchableOpacity
         onPress={() => router.back()}
         className="flex items-center justify-center p-2"
       >
-        <FontAwesome name="long-arrow-left" size={20} />
-      </Pressable>
+        <FontAwesome name="home" size={20} color={"white"} />
+      </TouchableOpacity>
       <Text className="font-bold text-xl">Visu!</Text>
-      <Pressable
-        onPress={() => setModal(!state)}
-        className="p-2 rounded-full bg-gray-200"
-      >
-        <FontAwesome name={icon} size={20} />
-      </Pressable>
+      <TouchableOpacity onPress={() => setModal(!state)}>
+        <FontAwesome name={icon} size={20} color={"white"} />
+      </TouchableOpacity>
     </View>
   );
 };
