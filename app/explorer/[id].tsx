@@ -33,10 +33,8 @@ const Book: React.FC = () => {
           justifyContent: "center",
           padding: 16,
           margin: 8,
-          borderWidth: 1,
-          borderColor: "#d1d5db",
           borderRadius: 12,
-          backgroundColor: "white",
+          backgroundColor: "#FFE0D4",
         }}
       >
         {isVisible ? (

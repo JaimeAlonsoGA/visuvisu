@@ -1,8 +1,6 @@
 import { Tabs, useFocusEffect, useNavigation } from "expo-router";
 import {
   FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import { BackHandler, Platform } from "react-native";
@@ -37,16 +35,19 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { height: 60, backgroundColor: "#fff" },
+        tabBarStyle: { height: 60, backgroundColor: "#BA8355", borderTopWidth: 0},
+        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: "#EFE3E3",
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Explore",
+          title: "Explorador",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="wpexplorer" size={size} color={color} />
           ),
+          animation: "fade",
         }}
       />
       <Tabs.Screen

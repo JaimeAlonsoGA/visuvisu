@@ -13,19 +13,20 @@ const ExamHeader: React.FC<{
   setModal: (state: boolean) => void;
   loading: boolean;
 }> = ({ state, setModal, loading }) => {
-  const icon = state ? "close" : "filter";
+  const icon: { icon: 'close' | 'binoculars' | 'filter'; size: number }
+    = state ? { icon: "close", size: 20 } : { icon: "filter", size: 18 };
 
   return (
     <View className="flex flex-row items-center justify-between p-2">
       <TouchableOpacity
         onPress={() => router.back()}
-        className="flex items-center justify-center p-2"
+        className={`flex items-center justify-center p-2 ${state && "hidden"}`}
       >
         <FontAwesome name="home" size={20} color={"white"} />
       </TouchableOpacity>
       <Text className="font-bold text-xl">Visu!</Text>
       <TouchableOpacity onPress={() => setModal(!state)}>
-        <FontAwesome name={icon} size={20} color={"white"} />
+        <FontAwesome name={icon.icon} size={icon.size} color={"white"} />
       </TouchableOpacity>
     </View>
   );

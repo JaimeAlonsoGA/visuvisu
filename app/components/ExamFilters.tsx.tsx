@@ -22,10 +22,13 @@ const ExamFilters: React.FC<{
           flexGrow: 1,
           justifyContent: "center",
         }}
-        className="h-full flex flex-col rounded-lg shadow-lg bg-white/20"
+        style={{
+          backgroundColor: "#BA8355",
+        }}
+        className="h-full flex flex-col rounded-lg shadow-lg"
         renderItem={({ item: family }) => (
           <TouchableOpacity
-            className="flex-1 items-center justify-center p-3 m-2 border border-gray-300 rounded-lg bg-white"
+            className="flex-1 items-center justify-center p-3 m-2 rounded-lg"
             onPress={() => {
               if (families.includes(family)) {
                 setFamilies(families.filter((f: Class) => f.id !== family.id));
@@ -33,11 +36,13 @@ const ExamFilters: React.FC<{
                 setFamilies([...families, family]);
               }
             }}
+            style={{
+              backgroundColor: "#FFE0D4",
+            }}
           >
             <Text
-              className={`text-xl ${
-                families.includes(family) ? "text-blue-800/80 font-bold" : "text-black/60 line-through"
-              }`}
+              className={`text-xl ${families.includes(family) ? "text-blue-800/80 font-bold" : "text-black/40 line-through font-medium"
+                }`}
             >
               {family.name}
             </Text>

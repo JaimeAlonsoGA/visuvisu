@@ -33,7 +33,10 @@ const Search: React.FC<{
         onChangeText={handleSearch}
         placeholder="Buscar por nombre o nombre común"
         placeholderTextColor="#888"
-        className="w-full p-2 mb-4 border border-gray-300 rounded-lg bg-white text-gray-800"
+        style={{
+          backgroundColor: "#FFE0D4",
+        }}
+        className="w-full p-2 mb-4 border border-gray-300 rounded-lg text-gray-800"
       />
       <FlatList
         data={filteredSpecies}
@@ -44,7 +47,10 @@ const Search: React.FC<{
               scrollToItem(index);
               setModal(false);
             }}
-            className="flex items-center justify-center p-2 m-2 border border-gray-300 rounded-lg bg-white"
+            className="flex items-center justify-center p-2 m-2 rounded-lg"
+            style={{
+              backgroundColor: "#FFE0D4",
+            }}
           >
             <Text className="text-lg italic text-gray-800">{item.scientific_name}</Text>
             <Text className="text-xs font-bold text-gray-800">
@@ -53,9 +59,12 @@ const Search: React.FC<{
           </TouchableOpacity>
         )}
         contentContainerStyle={{ justifyContent: "center" }}
-        className="h-full flex flex-col rounded-lg shadow-lg bg-gray-100"
+        className="h-full flex flex-col rounded-lg shadow-lg"
+        style={{
+          backgroundColor: "#BA8355",
+        }}
       />
-              
+
     </View>
   );
 };

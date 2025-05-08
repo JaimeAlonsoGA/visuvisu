@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Visu",
+    "name": "El visu",
     "slug": "visuvisu",
     "version": "0.1.0",
     "scheme": "visuvisu",
@@ -25,7 +25,7 @@
       "package": "com.sonicode.visuvisu"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assets/icon.png",
       "bundler": "metro"
     },
     "plugins": [
