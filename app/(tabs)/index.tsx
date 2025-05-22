@@ -2,7 +2,7 @@ import { FlatList, Text, View } from "react-native";
 import { Link } from "expo-router";
 import { useEffect, useState } from "react";
 import { ImageBackground } from "expo-image";
-import { InfoHeader } from "../components/ExplorerHeader";
+import { InfoHeader } from "../components/explorer/ExplorerHeader";
 import { species } from "../../utils/lib";
 
 const Explorer = () => {
@@ -26,7 +26,7 @@ const Explorer = () => {
           justifyContent: "center",
         }}
         renderItem={({ item }) => {
-          const firstSpecies = item.species[thumbnail].images[0].url;
+          const firstSpecies = item.species[thumbnail]?.images[0]?.url;
 
           return (
             <Link

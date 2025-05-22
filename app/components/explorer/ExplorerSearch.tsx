@@ -2,44 +2,21 @@ import React, { useState } from "react";
 import {
   FlatList,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-import { Class } from "../../models/data";
+import { Specie } from "../../../models/data";
 
 const Search: React.FC<{
   setModal: (status: boolean) => void;
-  family: Class;
+  species: Specie[];
   scrollToItem: (index: number) => void;
-}> = ({ setModal, family, scrollToItem }) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [filteredSpecies, setFilteredSpecies] = useState(family.species);
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    const filtered = family.species.filter(
-      (specie) =>
-        specie.common_name.toLowerCase().includes(query.toLowerCase()) ||
-        specie.scientific_name.toLowerCase().includes(query.toLowerCase())
-    );
-    setFilteredSpecies(filtered);
-  };
+}> = ({ setModal, species, scrollToItem }) => {
 
   return (
     <View className="flex w-full h-full">
-      <TextInput
-        value={searchQuery}
-        onChangeText={handleSearch}
-        placeholder="Buscar por nombre o nombre común"
-        placeholderTextColor="#888"
-        style={{
-          backgroundColor: "#FFE0D4",
-        }}
-        className="w-full p-2 mb-4 border border-gray-300 rounded-lg text-gray-800"
-      />
       <FlatList
-        data={filteredSpecies}
+        data={species}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item, index }) => (
           <TouchableOpacity

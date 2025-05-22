@@ -1,8 +1,8 @@
 import { FlatList, ScrollView, TouchableOpacity } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
-import { Class } from "../../models/data";
-import { species } from "../../utils/lib";
+import { Class } from "../../../models/data";
+import { species } from "../../../utils/lib";
 
 const ExamFilters: React.FC<{
   setFamilies: (fam: Class[]) => void;

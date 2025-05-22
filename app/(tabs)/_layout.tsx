@@ -20,12 +20,9 @@ export default function TabLayout() {
       };
 
       if (Platform.OS === "android") {
-        BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
+        const subscription = BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
         return () => {
-          BackHandler.removeEventListener(
-            "hardwareBackPress",
-            onAndroidBackPress
-          );
+          subscription.remove();
         };
       }
     }, [navigation])
@@ -35,7 +32,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { height: 60, backgroundColor: "#BA8355", borderTopWidth: 0},
+        tabBarStyle: { height: 60, backgroundColor: "#BA8355", borderTopWidth: 0 },
         tabBarActiveTintColor: "#000",
         tabBarInactiveTintColor: "#EFE3E3",
       }}

@@ -1,7 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export const Header: React.FC<{
   title: string;
@@ -48,7 +47,7 @@ export const InfoHeader: React.FC<{
   return (
     <View className="flex flex-row items-center justify-between p-4">
       <Image
-        source={require("../../assets/icon.png")}
+        source={require("../../../assets/icon.png")}
         style={{ width: 50, height: 50 }}
         className="rounded-full"
       />

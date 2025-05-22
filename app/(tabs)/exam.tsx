@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import ExamHeader from "../components/ExamHeader";
+import ExamHeader from "../components/exam/ExamHeader";
 import { useEffect, useRef, useState } from "react";
-import { fetchImageFromAPI, SpeciesInfo } from "../../functions/getImage";
-import ExamFilters from "../components/ExamFilters.tsx";
+import { SpeciesInfo } from "../../functions/getImage";
+import ExamFilters from "../components/exam/ExamFilters.tsx";
 import { Class } from "../../models/data";
 import { species } from "../../utils/lib";
 import { Image } from "expo-image";
@@ -98,6 +98,8 @@ const Exam = () => {
                   alignItems: "center",
                   backgroundColor: "black",
                   padding: 16,
+                  borderBottomWidth: 0.5,
+                  borderBottomColor: "#FFE0D4",
                 }}
               >
                 <Image
@@ -111,29 +113,28 @@ const Exam = () => {
                   contentFit="cover"
                   cachePolicy={"memory-disk"}
                 />
-                {selectedIndex === index && (
-                  <View
-                    style={{
-                      position: "absolute",
-                      bottom: 10,
-                      left: 20,
-                      right: 20,
-                      alignItems: "center",
-                      padding: 10,
-                      borderRadius: 10,
-                      borderWidth: 1,
-                      borderColor: "#BA8355",
-                      borderStyle: "dashed"
-                    }}
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: 12,
+                    left: 20,
+                    right: 20,
+                    alignItems: "center",
+                    padding: 10,
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    // borderColor: "#BA8355",
+                  }}
+                >
+                  <Text
+                    className={`text-2xl mb-2 ${selectedIndex === index ? "text-white" : "text-transparent"}`}
                   >
-                    <Text className="text-2xl font-bold text-white">
-                      {item.name}
-                    </Text>
-                    <Text className="text-lg text-white/80">
-                      {item.commonName}
-                    </Text>
-                  </View>
-                )}
+                    {item.name}
+                  </Text>
+                  <Text className="text-lg text-white/80">
+                    {item.commonName}
+                  </Text>
+                </View>
               </TouchableOpacity>
             );
           }}
