@@ -67,7 +67,8 @@ export default function Settings() {
               <Switch
                 value={settings.showCommonName}
                 onValueChange={(showCommonName) => update({ showCommonName })}
-                trackColor={{ true: colors.accent }}
+                trackColor={{ true: colors.accent, false: "#555" }}
+                thumbColor={settings.showCommonName ? colors.card : "#ccc"}
                 accessibilityLabel="Mostrar nombre común"
               />
             }
@@ -102,7 +103,7 @@ export default function Settings() {
           <Row label="Contenido" right={<Text className="text-white/60">{totalSpecies} especies · {classes.length} categorías</Text>} />
           <Row
             label="Créditos de las imágenes"
-            detail="Fotografías de Wikimedia Commons y otras fuentes; autor y licencia se muestran al ampliar cada imagen."
+            detail="Fotografías con licencia libre, casi todas de Wikimedia Commons; autor y licencia se muestran al ampliar cada imagen."
           />
           <Row label="Política de privacidad" detail="El visu no recoge datos personales." onPress={() => Linking.openURL(PRIVACY_URL)} />
           <Row label="Código fuente" onPress={() => Linking.openURL(REPO_URL)} />

@@ -25,7 +25,7 @@ Fotografías de Wikimedia Commons con licencias libres; autor y licencia visible
 ## Recursos gráficos
 - Icono 512×512: `store/icon-512.png`
 - Gráfico de funciones 1024×500: `store/feature-graphic.png`
-- Capturas de teléfono (1080×2340): `store/screenshots/` — generadas desde la build web; conviene sustituirlas por capturas de un móvil real.
+- Capturas de teléfono (1080×2160): `store/screenshots/` — tomadas del emulador Android 16 (Pixel 8).
 
 ## Política de privacidad (URL)
 https://github.com/JaimeAlonsoGA/visuvisu/blob/main/PRIVACY.md
