@@ -24,11 +24,19 @@ npx expo-doctor
 
 ## Publicar en Google Play
 
-1. `npx eas-cli login` con la cuenta de Expo propietaria del proyecto (`extra.eas.projectId`).
-2. Crea la app en Play Console (`com.sonicode.visuvisu`) y completa la ficha con `store/listing.md`.
-3. Crea una service account en Google Cloud con acceso a la API de Google Play Developer, invítala en Play Console (Usuarios y permisos → acceso a la app con permiso de publicar) y guarda su clave JSON como `play-service-account.json` en la raíz (está en `.gitignore`).
-4. `npx eas-cli build -p android --profile production` (AAB firmado; EAS gestiona el keystore).
-5. La **primera** subida de una app nueva debe hacerse a mano en Play Console (limitación de la API de Google). Descarga el `.aab` de EAS y súbelo a la pista de pruebas internas.
-6. Las siguientes: `npx eas-cli submit -p android --profile production --latest` (sube a la pista interna como borrador).
+Requisitos (ya configurados en el Mac de desarrollo): Android SDK en `~/Library/Android/sdk`, JDK 21, `play-service-account.json` en la raíz (service account `sonicode@alchimix-418309`, gitignored) y un token de Expo (`EXPO_TOKEN`) de la cuenta `sonicode`.
 
-Las cuentas personales creadas después de nov. 2023 deben pasar una prueba cerrada con ≥12 testers durante 14 días antes de poder publicar en producción.
+```bash
+# 1. AAB firmado con la clave de subida que guarda EAS (la que Play ya conoce).
+#    El perfil production incrementa android.versionCode en app.json: haz commit después.
+EXPO_TOKEN=... npx eas-cli build -p android --profile production --local --output dist/visuvisu.aab
+
+# 2. Subir a una pista (internal | pruebas | production)
+node scripts/play-upload.mjs dist/visuvisu.aab --track internal --status completed --notes "Novedades…"
+
+# 3. Ficha de la tienda (textos, icono, gráfico, capturas de store/)
+node scripts/play-listing.mjs
+```
+
+Mientras la app esté en estado borrador en Play, fuera de `internal` solo se aceptan releases `--status draft`.
+Para probar en local: `npm run android` con el emulador `visu_pixel` abierto.
