@@ -20,7 +20,7 @@ El visu es la herramienta para preparar el examen de visu de biología y geolog�
 
 Sin anuncios, sin registro y sin recogida de datos.
 
-Fotografías de Wikimedia Commons y otras fuentes, con sus licencias correspondientes.
+Fotografías de Wikimedia Commons con licencias libres; autor y licencia visibles en cada imagen.
 
 ## Recursos gráficos
 - Icono 512×512: `store/icon-512.png`

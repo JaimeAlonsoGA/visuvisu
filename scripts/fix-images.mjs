@@ -7,7 +7,8 @@
 //  - Empty, broken, or stock-photo/hotlinked-search-result images are replaced
 //    with a freely licensed image found on Wikipedia/Commons for that species.
 //
-// Usage: node scripts/fix-images.mjs [--dry-run]
+// Usage: node scripts/fix-images.mjs [--dry-run] [--commons-only]
+//   --commons-only  also replaces images from sites without a clear free license.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -16,6 +17,9 @@ const DATA = path.resolve(import.meta.dirname, "../assets/species/data.json");
 const UA = "VisuApp/1.0 (https://github.com/JaimeAlonsoGA/visuvisu)";
 const WIDTH = 960; // one of Wikimedia's standard thumbnail sizes
 const DRY = process.argv.includes("--dry-run");
+const COMMONS_ONLY = process.argv.includes("--commons-only");
+// Non-Commons hosts whose images carry a free license.
+const FREE_HOSTS = ["inaturalist-open-data.s3.amazonaws.com"];
 
 // Hosts whose images are unlicensed stock photos or expiring search-engine proxies.
 const REPLACE_HOSTS = [
@@ -32,7 +36,21 @@ const FILE_OVERRIDES = {
   "Anomia ephippium": "Anomia ephippium.jpg",
   "Cuarzo ahumado": "Smoky quartz. Zinggenstock, Grimsel, Switzerland-8847.jpg",
   "Yeso rosa del desierto": "Roses des Sables Tunisie.jpg",
+  Cupressocrinus: "Cupressocrinus sp.5 - Devonico.JPG",
+  Calceola: "Calceola sandalina.1 - Devonico.JPG",
+  Terebratula: "Terebratula sp.1 - Jurasico.JPG",
+  Flabellum: "FMIB 45433 Flabellum laciniatum, the deep-sea fan-coral, found in all parts of the Indian Seas at 400-600 fathoms The same species has been.jpeg",
+  Dentalium: "Dentalium sp.1 - Plioceno.JPG",
+  "Tipula maxima": "Crane fly (Tipula maxima).jpg",
+  "Catocala nupta": "Catocala nupta Graz01.jpg",
+  "Populus nigra": "Zwarte populier (Populus nigra), 08-08-2025. (d.j.b.).jpg",
+  "Orobanche sp": "Orobanche crenata - Chios - Greece.jpg",
+  "Procambarus clarkii": "Procambarus clarkii.jpg",
+  "Copris hispanus": "Copris hispanus.jpg",
+  "Stereum hirsutum": "False turkey-tail - Stereum hirsutum - 02.jpg",
 };
+// Species with no free image anywhere; their curated image is kept even with --commons-only.
+const KEEP_ORIGINAL = ["Anathyris"];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -154,6 +172,10 @@ for (const c of classes) {
       }
       if (!img.url) continue;
       const host = new URL(img.url).host;
+      if (COMMONS_ONLY && !FREE_HOSTS.includes(host) && !KEEP_ORIGINAL.includes(s.scientific_name)) {
+        log.push(`dropping unlicensed image for ${s.scientific_name} (${host})`);
+        continue;
+      }
       if (REPLACE_HOSTS.some((h) => host.endsWith(h))) {
         log.push(`dropping stock/proxy image for ${s.scientific_name} (${host})`);
         continue;
