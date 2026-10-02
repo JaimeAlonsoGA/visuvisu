@@ -1,11 +1,14 @@
 // Signs local release builds with the upload key described by
 // ~/.android-keys/visuvisu-upload.properties (never committed). Without that
 // file, release builds fall back to the debug key, as in a fresh Expo prebuild.
+// Play already has an upload key registered through EAS, so store builds go through EAS.
 const { withAppBuildGradle } = require("expo/config-plugins");
 
 const MARKER = "// visu-release-signing";
 
 module.exports = function withReleaseSigning(config) {
+  // EAS builds (cloud or --local) inject the upload key stored in the Expo account.
+  if (process.env.EAS_BUILD) return config;
   return withAppBuildGradle(config, (cfg) => {
     let gradle = cfg.modResults.contents;
     if (gradle.includes(MARKER)) return cfg;
