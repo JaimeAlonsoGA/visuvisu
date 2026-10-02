@@ -84,7 +84,6 @@ try {
   await image("icon", path.join(STORE, "icon-512.png"));
   await image("featureGraphic", path.join(STORE, "feature-graphic.png"));
   for (const s of screenshots) await image("phoneScreenshots", s);
-  await call("PATCH", `${E}/details`, { defaultLanguage: LANG });
   const committed = await call("POST", `${E}:commit`);
   console.log(`Listing committed (edit ${committed.id})`);
 } catch (e) {
