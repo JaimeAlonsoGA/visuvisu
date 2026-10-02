@@ -1,49 +1,32 @@
-import { Tabs, useFocusEffect, useNavigation } from "expo-router";
-import {
-  FontAwesome,
-  MaterialIcons,
-} from "@expo/vector-icons";
-import { BackHandler, Platform } from "react-native";
-import { useCallback } from "react";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "../../lib/theme";
 
 export default function TabLayout() {
-  const navigation = useNavigation();
-
-  useFocusEffect(
-    useCallback(() => {
-      const onAndroidBackPress = () => {
-        if (navigation.canGoBack()) {
-          navigation.goBack();
-          return true;
-        }
-        return false;
-      };
-
-      if (Platform.OS === "android") {
-        const subscription = BackHandler.addEventListener("hardwareBackPress", onAndroidBackPress);
-        return () => {
-          subscription.remove();
-        };
-      }
-    }, [navigation])
-  );
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
+      backBehavior="initialRoute"
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { height: 60, backgroundColor: "#BA8355", borderTopWidth: 0 },
+        sceneStyle: { backgroundColor: colors.background, paddingTop: insets.top },
+        tabBarStyle: {
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
+          backgroundColor: colors.accent,
+          borderTopWidth: 0,
+        },
         tabBarActiveTintColor: "#000",
-        tabBarInactiveTintColor: "#EFE3E3",
+        tabBarInactiveTintColor: colors.inactive,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Explorador",
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="wpexplorer" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <FontAwesome name="wpexplorer" size={size} color={color} />,
           animation: "fade",
         }}
       />
@@ -51,9 +34,7 @@ export default function TabLayout() {
         name="exam"
         options={{
           title: "Visu",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="pets" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="pets" size={size} color={color} />,
           tabBarStyle: { display: "none" },
         }}
       />
@@ -61,9 +42,8 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "Ajustes",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="biotech" size={size} color={color} />
-          ),
+          tabBarIcon: ({ color, size }) => <MaterialIcons name="biotech" size={size} color={color} />,
+          animation: "fade",
         }}
       />
     </Tabs>
